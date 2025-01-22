@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/strivelabs-task/static/css/main.3199bb0d.css",
-    "main.js": "/strivelabs-task/static/js/main.85012399.js",
+    "main.css": "/strivelabs-task/static/css/main.e4b695d5.css",
+    "main.js": "/strivelabs-task/static/js/main.66695be2.js",
     "static/js/488.fe3c27c7.chunk.js": "/strivelabs-task/static/js/488.fe3c27c7.chunk.js",
     "static/media/Population.svg": "/strivelabs-task/static/media/Population.008fe517664edfb85d524ad603e88c49.svg",
     "static/media/Language.svg": "/strivelabs-task/static/media/Language.47df76cdb210ed16409ce67593852185.svg",
     "index.html": "/strivelabs-task/index.html",
-    "main.3199bb0d.css.map": "/strivelabs-task/static/css/main.3199bb0d.css.map",
-    "main.85012399.js.map": "/strivelabs-task/static/js/main.85012399.js.map",
+    "main.e4b695d5.css.map": "/strivelabs-task/static/css/main.e4b695d5.css.map",
+    "main.66695be2.js.map": "/strivelabs-task/static/js/main.66695be2.js.map",
     "488.fe3c27c7.chunk.js.map": "/strivelabs-task/static/js/488.fe3c27c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3199bb0d.css",
-    "static/js/main.85012399.js"
+    "static/css/main.e4b695d5.css",
+    "static/js/main.66695be2.js"
   ]
 }
