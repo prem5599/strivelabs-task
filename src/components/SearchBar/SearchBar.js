@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SearchBar.css'
+import './SearchBar.css';
 
 function SearchBar({ onSearch, countries }) {
   const [query, setQuery] = useState('');
@@ -9,6 +9,11 @@ function SearchBar({ onSearch, countries }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+
+  const handleClose = useCallback(() => {
+    setShowSuggestions(false);
+    setSelectedIndex(-1);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -19,14 +24,23 @@ function SearchBar({ onSearch, countries }) {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [handleClose]);
 
-  const handleClose = () => {
-    setShowSuggestions(false);
-    setSelectedIndex(-1);
-  };
+  const selectCountry = useCallback((country, event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
-  const handleSearch = (e) => {
+    if (!country?.name?.common) return;
+
+    navigate(`/country/${encodeURIComponent(country.name.common)}`);
+    setQuery('');
+    onSearch('');
+    handleClose();
+  }, [navigate, onSearch, handleClose]);
+
+  const handleSearch = useCallback((e) => {
     const value = e.target.value;
     setQuery(value);
     onSearch(value);
@@ -40,23 +54,9 @@ function SearchBar({ onSearch, countries }) {
     } else {
       handleClose();
     }
-  };
+  }, [countries, onSearch, handleClose]);
 
-  const selectCountry = (country, event) => {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    if (!country?.name?.common) return;
-
-    navigate(`/country/${encodeURIComponent(country.name.common)}`);
-    setQuery('');
-    onSearch('');
-    handleClose();
-  };
-
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback((e) => {
     if (!showSuggestions) return;
 
     switch(e.key) {
@@ -81,8 +81,10 @@ function SearchBar({ onSearch, countries }) {
       case 'Escape':
         handleClose();
         break;
+      default:
+        break;
     }
-  };
+  }, [showSuggestions, suggestions, selectedIndex, selectCountry, handleClose]);
 
   return (
     <div className="searchbox" ref={searchRef}>

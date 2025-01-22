@@ -1,7 +1,5 @@
-// CountryDetails.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import FavoritesList from '../FavoritesList/FavoritesList';
 import './CountryDetails.css';
 
 function CountryDetails() {
@@ -12,17 +10,7 @@ function CountryDetails() {
   const { name } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchCountryDetails();
-  }, [name]);
-
-  useEffect(() => {
-    if (country) {
-      checkFavoriteStatus();
-    }
-  }, [country]);
-
-  const fetchCountryDetails = async () => {
+  const fetchCountryDetails = useCallback(async () => {
     try {
       const response = await fetch(`https://restcountries.com/v3.1/name/${name}?fullText=true`);
       if (!response.ok) throw new Error('Country not found');
@@ -33,12 +21,22 @@ function CountryDetails() {
       setError('Unable to fetch country details.');
       setLoading(false);
     }
-  };
+  }, [name]);
 
-  const checkFavoriteStatus = () => {
+  const checkFavoriteStatus = useCallback(() => {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setIsFavorite(favorites.some(fav => fav.cca3 === country.cca3));
-  };
+    setIsFavorite(favorites.some(fav => fav.cca3 === country?.cca3));
+  }, [country]);
+
+  useEffect(() => {
+    fetchCountryDetails();
+  }, [name, fetchCountryDetails]);
+
+  useEffect(() => {
+    if (country) {
+      checkFavoriteStatus();
+    }
+  }, [country, checkFavoriteStatus]);
 
   const toggleFavorite = () => {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -167,7 +165,7 @@ function CountryDetails() {
                 </div>
               </div>
               <div className="factitem">
-                <span className="facticon">⏰</span>
+                <span className="facticon">⚡</span>
                 <div className="factcontent">
                   <label>Timezones</label>
                   <value>{country.timezones?.join(', ') || 'N/A'}</value>
@@ -193,7 +191,6 @@ function CountryDetails() {
           )}
         </div>
       </div>
-     
     </div>
   );
 }

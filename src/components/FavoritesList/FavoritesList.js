@@ -1,4 +1,3 @@
-// FavoritesList.jsx
 import React, { useState, useEffect } from 'react';
 import './FavoritesList.css';
 
