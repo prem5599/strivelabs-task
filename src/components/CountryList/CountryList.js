@@ -120,7 +120,7 @@ function CountryList() {
           </div>
           <div className="statbox glass">
             <div className="staticon">
-              <img src={population} alt="global population image"/>
+              <img src={population} />
             </div>
             <div className="statinfo">
               <h3>{(stats.totalPopulation / 1000000000).toFixed(1)}B</h3>
