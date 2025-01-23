@@ -25,7 +25,6 @@ function Navbar() {
         
         <div className="navlinks">
           <Link to="/" className="navlink">
-            <span>🏠</span>
             Home
           </Link>
           <Link to="/favorites" className="favbtn">
